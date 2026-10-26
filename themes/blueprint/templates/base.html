@@ -1,0 +1,45 @@
+{%- set kinds = load_data(path="data/kinds.toml") %}
+{%- set topics = load_data(path="data/topics.toml") %}
+<!doctype html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- set title_full = config.title %}{% if page %}{% set title_full = page.title ~ " | " ~ config.title %}{% elif section and not section.path == "/" %}{% set title_full = section.title ~ " | " ~ config.title %}{% endif %}
+  {%- set desc = config.description %}{% if page and page.description %}{% set desc = page.description %}{% elif section and section.description %}{% set desc = section.description %}{% endif %}
+  <title>{{ title_full }}</title>
+  <meta name="description" content="{{ desc }}">
+  {%- if page and page.extra.noindex %}<meta name="robots" content="noindex">{% endif %}
+  <link rel="canonical" href="{{ current_url | default(value=config.base_url) | safe }}">
+  <meta property="og:type" content="{% if page %}article{% else %}website{% endif %}">
+  <meta property="og:title" content="{{ title_full }}">
+  <meta property="og:description" content="{{ desc }}">
+  <meta property="og:url" content="{{ current_url | default(value=config.base_url) | safe }}">
+  <link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ get_url(path='atom.xml') | safe }}">
+  {#- For agents: the whole site as Markdown, and this page's own Markdown copy (written by scripts/llms.py). #}
+  <link rel="alternate" type="text/markdown" title="llms.txt" href="{{ get_url(path='llms.txt') | safe }}">
+  {%- if page %}<link rel="alternate" type="text/markdown" title="{{ page.title }} as Markdown" href="{{ page.permalink | trim_end_matches(pat='/') | safe }}.md">{% endif %}
+  <link rel="icon" href="{{ get_url(path='favicon.svg') | safe }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ get_url(path='style.css', cachebust=true) | safe }}">
+  {% include "partials/jsonld.html" %}
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <a class="brand" href="{{ get_url(path='/') | safe }}">{{ config.title }}</a>
+    <nav aria-label="Main">
+      <a href="{{ get_url(path='@/articles/_index.md') | safe }}">Articles</a>
+      <a href="{{ get_url(path='@/notes/_index.md') | safe }}">Notes</a>
+      <a href="{{ get_url(path='@/projects.md') | safe }}">Projects</a>
+      <a href="{{ get_url(path='/topics/') | safe }}">Topics</a>
+    </nav>
+  </header>
+  <main id="main">
+    {% block content %}{% endblock content %}
+  </main>
+  <footer class="foot">
+    {%- if config.extra.feedback_endpoint %}{% include "partials/feedback.html" %}{% endif %}
+    <p><a href="{{ get_url(path='llms.txt') | safe }}">llms.txt</a> · <a href="{{ get_url(path='atom.xml') | safe }}">Feed</a> · <a href="{{ config.extra.repository | safe }}">Source</a></p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,23 @@
+# Every pull request and every push to main: validate the ontology, build the site, test the Worker.
+# Cloudflare Pages builds and deploys on its own (GitHub integration); this workflow is the gate in front of it.
+name: check
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: recursive # the theme and content repos, at the commits this repo pins
+      - uses: jdx/mise-action@82a612c5ab8bcda7cc5db6b7e81a8e7584c3dc6e # v5.2.3, installs the tools in mise.toml
+      - run: mise run build
+      - run: mise run worker-test
+      - name: Pages limits
+        run: |
+          big=$(find public -type f -size +25M); if [ -n "$big" ]; then echo "over 25 MiB: $big"; exit 1; fi
+          test "$(find public -type f | wc -l)" -lt 20000

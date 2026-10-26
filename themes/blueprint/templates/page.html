@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<article>
+  <h1>{{ page.title }}</h1>
+  <p class="meta"><time datetime="{{ page.date }}">{{ page.date | date(format="%B %-d, %Y") }}</time>{% if page.reading_time %} · {{ page.reading_time }} min{% endif %}
+    {%- for t in page.taxonomies.topics | default(value=[]) %} · <a href="{{ get_taxonomy_url(kind='topics', name=t) | safe }}">{{ topics[t].name | default(value=t) }}</a>{% endfor %}</p>
+  <div class="prose">{{ page.content | safe }}</div>
+  <p class="muted"><a href="{{ page.permalink | trim_end_matches(pat='/') | safe }}.md">This page as Markdown</a></p>
+</article>
+{% endblock content %}

@@ -1,0 +1,10 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://example.org/",
+      "service-desc": [{ "href": "https://example.org/llms.txt", "type": "text/plain" }],
+      "service-doc": [{ "href": "https://example.org/llms-full.txt", "type": "text/plain" }],
+      "item": [{ "href": "https://example.org/atom.xml", "type": "application/atom+xml" }]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+name: Content issue
+description: A mistake, an outdated fact, or a missing source on a page
+labels: [content]
+body:
+  - type: input
+    id: url
+    attributes: { label: Page URL, placeholder: "https://example.org/articles/..." }
+    validations: { required: true }
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is wrong
+      options: [A factual error, Outdated, A broken link, A missing source, Something else]
+    validations: { required: true }
+  - type: textarea
+    id: details
+    attributes: { label: Details, description: "What it says, what it should say, and a source if you have one." }
+    validations: { required: true }

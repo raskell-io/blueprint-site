@@ -1,0 +1,30 @@
+base_url = "https://example.org"
+title = "Blueprint"
+description = "A static website built at commit time, served as files from the edge, and legible to people and agents."
+default_language = "en"
+theme = "blueprint"
+compile_sass = false
+minify_html = true
+generate_feeds = true
+feed_filenames = ["atom.xml"]
+build_search_index = false
+
+taxonomies = [
+  { name = "topics", feed = false },
+]
+
+[markdown]
+smart_punctuation = true
+
+[markdown.highlighting]
+theme = "github-dark"
+
+[extra]
+author = "Your Name"
+# The person or organisation behind the site, for JSON-LD (Person or Organization).
+publisher = { type = "Person", name = "Your Name", url = "https://example.org/" }
+repository = "https://github.com/your-org/site"
+# security.txt Contact (RFC 9116): a mailto: or https: URL.
+security_contact = "mailto:security@example.org"
+# Where reader feedback goes: the Worker's route. Leave empty to hide the feedback form.
+feedback_endpoint = "/api/feedback"

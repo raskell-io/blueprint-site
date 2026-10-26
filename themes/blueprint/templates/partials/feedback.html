@@ -1,0 +1,10 @@
+{#- Reader feedback: a plain form that works without JavaScript. The Worker (worker/) turns it into a GitHub issue,
+    so feedback is moderated where the content lives. #}
+<form class="feedback" method="post" action="{{ config.extra.feedback_endpoint | safe }}">
+  <label for="fb-message">Spotted a mistake, or have a thought?</label>
+  <textarea id="fb-message" name="message" rows="3" maxlength="2000" required></textarea>
+  <input type="hidden" name="page" value="{{ current_path | default(value="/") }}">
+  {#- A field people do not see; bots that fill every field are dropped by the Worker. #}
+  <label class="hp" aria-hidden="true">Leave empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+  <button type="submit">Send</button>
+</form>

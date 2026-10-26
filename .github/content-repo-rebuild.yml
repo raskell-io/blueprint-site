@@ -1,0 +1,16 @@
+# Copy into the CONTENT repository as .github/workflows/rebuild-site.yml.
+# Content lives in its own repo; the site repo pins it as a submodule. This workflow closes the loop: when content
+# lands on main, it validates and asks Cloudflare Pages to rebuild the site, which picks up the new commit.
+# Secret: CF_PAGES_DEPLOY_HOOK (Pages project > Settings > Builds > Deploy hooks).
+name: rebuild-site
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ask Cloudflare Pages to rebuild the site
+        run: curl -fsS -X POST "${{ secrets.CF_PAGES_DEPLOY_HOOK }}"

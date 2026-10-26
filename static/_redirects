@@ -1,0 +1,2 @@
+# Cloudflare Pages redirects. Keep old URLs alive when content moves: a 301 per moved page, never a deleted page.
+# /old-path/  /new-path/  301

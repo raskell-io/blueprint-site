@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Topics</h1>
+<ul class="list">{% for t in terms %}<li><a href="{{ t.permalink | safe }}">{{ topics[t.slug].name | default(value=t.name) }}</a> <span class="muted">{{ t.pages | length }}</span><br><span class="muted">{{ topics[t.slug].description | default(value="") }}</span></li>{% endfor %}</ul>
+{% endblock content %}

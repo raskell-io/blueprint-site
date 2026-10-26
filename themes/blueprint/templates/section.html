@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ section.title }}</h1>
+{%- if section.description %}<p class="lede">{{ section.description }}</p>{% endif %}
+<ul class="list">
+  {%- for p in section.pages %}
+  <li><a href="{{ p.permalink | safe }}">{{ p.title }}</a> <time datetime="{{ p.date }}">{{ p.date | date(format="%Y-%m-%d") }}</time><br><span class="muted">{{ p.description }}</span></li>
+  {%- endfor %}
+</ul>
+{% endblock content %}

@@ -1,0 +1,38 @@
+# Tools are pinned here and only here: CI (jdx/mise-action) and the Cloudflare Pages build (scripts/cf-pages-build.sh)
+# read the same versions, so "works on my machine" and "works in production" are the same build.
+[tools]
+# 0.23 replaced the template engine (filters such as trim_end_matches are gone); these templates target 0.22.
+# Upgrade on purpose, in its own change, never because a machine happens to have a newer zola on PATH.
+zola = "0.22.1"
+python = "3.13.17"
+node = "24"
+
+[tasks.check]
+description = "Validate the ontology, front matter and topics, then let Zola check links and templates"
+run = [
+  "python scripts/check_content.py",
+  "zola check --skip-external-links",
+]
+
+[tasks.llms]
+description = "Write static/llms.txt, static/llms-full.txt and a Markdown copy of every page (gitignored)"
+run = "python scripts/llms.py"
+
+[tasks.security-txt]
+description = "Write static/.well-known/security.txt with an Expires date a year out (RFC 9116)"
+run = "python scripts/security_txt.py"
+
+[tasks.build]
+description = "Generate the machine-readable files, then build the site into public/"
+depends = ["check", "llms", "security-txt"]
+run = "zola build"
+
+[tasks.dev]
+description = "Serve the site with drafts at http://127.0.0.1:1111"
+depends = ["llms"]
+run = "zola serve --drafts --port 1111"
+
+[tasks.worker-test]
+description = "Test the feedback Worker with Node's built-in test runner"
+dir = "worker"
+run = "node --test"

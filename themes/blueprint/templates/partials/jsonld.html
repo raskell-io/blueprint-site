@@ -1,0 +1,21 @@
+{#- Structured data for every page, typed by data/kinds.toml: the kind of a page is the section it lives in. #}
+{%- set pub = config.extra.publisher %}
+{%- if page %}
+{%- set kind = page.components | first | trim_end_matches(pat="s") %}
+{%- set ld_type = "Article" %}{% if kind in kinds.kinds %}{% set ld_type = kinds.kinds[kind].jsonld %}{% endif %}{% if page.extra.jsonld %}{% set ld_type = page.extra.jsonld %}{% endif %}
+<script type="application/ld+json">{
+  "@context": "https://schema.org", "@type": {{ ld_type | json_encode | safe }},
+  "headline": {{ page.title | json_encode | safe }}, "description": {{ page.description | default(value="") | json_encode | safe }},
+  "datePublished": "{{ page.date }}"{% if page.updated %}, "dateModified": "{{ page.updated }}"{% endif %},
+  "url": {{ page.permalink | json_encode | safe }}, "inLanguage": "{{ page.lang }}",
+  "author": { "@type": {{ pub.type | json_encode | safe }}, "name": {{ pub.name | json_encode | safe }}, "url": {{ pub.url | json_encode | safe }} },
+  "keywords": {{ page.taxonomies.topics | default(value=[]) | join(sep=", ") | json_encode | safe }},
+  "encoding": { "@type": "MediaObject", "encodingFormat": "text/markdown", "contentUrl": "{{ page.permalink | trim_end_matches(pat='/') | safe }}.md" }
+}</script>
+{%- else %}
+<script type="application/ld+json">{
+  "@context": "https://schema.org", "@type": "WebSite",
+  "name": {{ config.title | json_encode | safe }}, "url": {{ config.base_url | json_encode | safe }}, "description": {{ config.description | json_encode | safe }},
+  "publisher": { "@type": {{ pub.type | json_encode | safe }}, "name": {{ pub.name | json_encode | safe }}, "url": {{ pub.url | json_encode | safe }} }
+}</script>
+{%- endif %}

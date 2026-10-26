@@ -1,0 +1,6 @@
+# GitHub is the moderation layer: nothing reaches main without a review from these owners.
+*                 @your-org/maintainers
+/content/         @your-org/editors
+/data/            @your-org/editors
+/static/_headers  @your-org/maintainers
+/worker/          @your-org/maintainers

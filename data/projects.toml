@@ -1,0 +1,10 @@
+# The project register: one [[projects]] entry per project. Fields are declared in data/kinds.toml (kind "project").
+
+[[projects]]
+slug = "blueprint-app"
+title = "Blueprint App"
+description = "The companion blueprint for apps: Svelte, a service worker for offline use, and a Rust core compiled to WebAssembly."
+status = "beta"
+url = "https://app.example.org/"
+repository = "https://github.com/your-org/blueprint-app"
+topics = ["webassembly", "static-sites"]

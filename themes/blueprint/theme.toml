@@ -1,0 +1,4 @@
+name = "blueprint"
+description = "A small, accessible Zola theme with no inline scripts, no external requests, and structured data for every kind."
+license = "MIT"
+min_version = "0.22.0"

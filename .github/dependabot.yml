@@ -1,0 +1,6 @@
+# Actions are pinned by commit SHA; Dependabot proposes the updates as pull requests.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: weekly }

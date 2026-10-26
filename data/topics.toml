@@ -1,0 +1,23 @@
+# The topic vocabulary. Every topic used in content or data must be defined here first; the validator enforces it.
+# `broader` links a topic under more general ones, which makes the vocabulary a small graph instead of a flat list.
+
+[static-sites]
+name = "Static sites"
+description = "Websites rendered at build time and served as files, with no application server at request time."
+
+[edge]
+name = "Edge"
+description = "Code and caches that run close to the reader, on a CDN, instead of in one data centre."
+broader = ["static-sites"]
+
+[webassembly]
+name = "WebAssembly"
+description = "A portable binary format that runs compiled code, such as Rust, in the browser at near-native speed."
+
+[security]
+name = "Security"
+description = "Keeping a site and its readers safe: a small attack surface, strict headers, and no secrets in the client."
+
+[agents]
+name = "Agents"
+description = "Software that reads and acts on the web for people, and the files that make a site legible to it."

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ section.title }}</h1>
+<div class="prose">{{ section.content | safe }}</div>
+{%- set arts = get_section(path="articles/_index.md") %}
+<h2>Latest</h2>
+<ul class="list">{% for p in arts.pages | slice(end=5) %}<li><a href="{{ p.permalink | safe }}">{{ p.title }}</a> <time datetime="{{ p.date }}">{{ p.date | date(format="%Y-%m-%d") }}</time></li>{% endfor %}</ul>
+{% endblock content %}

@@ -1,0 +1,43 @@
+# The ontology: every kind of resource this site knows, declared before any of it is written.
+# scripts/check_content.py enforces it on every pull request; scripts/llms.py and the templates read it.
+#
+#   register    where instances of the kind live: a content section (folder) or a data file / folder
+#   required    fields every instance must have (front matter for pages, keys for data entries)
+#   optional    fields an instance may have; anything else is rejected, so typos fail loudly
+#   jsonld      the schema.org type the kind becomes in structured data
+#   enum.<f>    allowed values for field <f>
+
+[kinds.article]
+name = "Article"
+register = "content/articles/"
+required = ["title", "date", "description", "taxonomies.topics"]
+optional = ["updated", "draft", "extra.author", "extra.image"]
+jsonld = "BlogPosting"
+
+[kinds.note]
+name = "Note"
+register = "content/notes/"
+required = ["title", "date", "description", "taxonomies.topics"]
+optional = ["updated", "draft"]
+jsonld = "Article"
+
+[kinds.project]
+name = "Project"
+register = "data/projects.toml"
+required = ["slug", "title", "description", "status", "url", "topics"]
+optional = ["repository"]
+jsonld = "SoftwareApplication"
+enum.status = ["live", "beta", "early", "archived"]
+
+[kinds.topic]
+name = "Topic"
+register = "data/topics.toml"
+required = ["name", "description"]
+optional = ["broader"]
+jsonld = "DefinedTerm"
+
+# Rules that hold across kinds.
+[rules]
+description_max = 160        # characters; it is also the meta description and the llms.txt line
+topics_min = 1
+topics_max = 5
